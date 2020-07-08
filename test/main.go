@@ -1,47 +1,22 @@
 package main
 
 import (
-	"database/sql"
 	"encoding/csv"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	//UpdateData()
-	s, _ := test("create")
-	fmt.Println(s)
+	UpdateData()
 }
 
-func CreateTable(db *sql.DB, tablename, colume string) error {
-	q := fmt.Sprintf("CREATE TABLE %s(%s);", tablename, colume)
-	rows, err := db.Query(q)
-	if err != nil {
-		return err
-	}
-	defer rows.Close()
-	return nil
-}
-func test(name string) (string, error) {
-	db, err := sql.Open("mysql", "admin:NanaDatabasePassword@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/badteam")
-	if err != nil {
-		return fmt.Sprintf(" sql.Open Error: %v", err), nil
-	}
-	defer db.Close()
-	if name == "create" {
-		err = CreateTable(db, "test", "id INT NOT NULL AUTO_INCREMENT,PRIMARY KEY(id), data INT, quo VARCHAR(30)")
-		if err != nil {
-			return fmt.Sprintf(" Create Table Error: %v", err), nil
-		}
-		return "Create Success", nil
-	}
-	return "", nil
-}
-
+//SetupCache by reading csv file from path
 func SetupCache(path string) error {
 	file, err := os.Open(path)
 	if err != nil {
@@ -64,15 +39,113 @@ func SetupCache(path string) error {
 
 //UpdateData download new data and refresh cache
 func UpdateData() error {
-	datalink := "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGDH-jfWULsmOHH5jDTgDZDZPxdgMmnrM6TOrF8FzV6FJEYtbSTcRhONDNG21hfKge04nZ96oKA78I/pub?gid=0&single=true&output=csv"
-	savepath := "./data.csv"
-	err := DownloadFile(savepath, datalink)
+	dataLink := "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGDH-jfWULsmOHH5jDTgDZDZPxdgMmnrM6TOrF8FzV6FJEYtbSTcRhONDNG21hfKge04nZ96oKA78I/pub?gid=0&single=true&output=csv"
+	savePath := "./data.csv"
+	err := DownloadFile(savePath, dataLink)
+	if err != nil {
+		return err
+	}
+	locationLink := "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGDH-jfWULsmOHH5jDTgDZDZPxdgMmnrM6TOrF8FzV6FJEYtbSTcRhONDNG21hfKge04nZ96oKA78I/pub?gid=1619494999&single=true&output=csv"
+	locationPath = "./location.csv"
+	err = DownloadFile(locationPath, locationLink)
+	if err != nil {
+		return err
+	}
+	locations ,err :=CreateLocationMap(locationPath)
 	if err != nil {
 		return err
 	}
 
-	return SetupCache(savepath)
+	return nil
 }
+
+type Location struct {
+	Lon float64
+	Lat float64
+}
+
+func CreateLocationMap(filePath string) map[string]Location ,error {
+	locations := make(map[string]Location)
+	csvfile, err := os.Open(filePath)
+	if err != nil {
+		return location, err
+	}
+	r := csv.NewReader(csvfile)
+	_, _ = r.Read()
+	_, _ = r.Read()
+	lonColume := 1
+	latColume := 2
+	for {
+		// Read each record from csv
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return location, err
+		}
+		lon, err := strconv.ParseFloat(record[lonColume], 64)
+		if err != nil {
+			return location, err
+		}
+		lat, err := strconv.ParseFloat(record[latColume], 64)
+		if err != nil {
+			return location, err
+		}
+		locations[record[0]] = Location{Lon: lon, Lat: lat}
+	}
+	return locations , nil
+}
+
+func UploadDataToDatabase(client *sql.DB,filePath string , locations map[string]Location) error{
+	csvfile, err := os.Open(filePath)
+	if err != nil {
+		return location, err
+	}
+	r := csv.NewReader(csvfile)
+	_, _ = r.Read()
+	addressColume := 4
+	for {
+		// Read each record from csv
+		record, err := r.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return location, err
+		}
+		if val, ok := locations[data[addressColume]]; ok {
+			UploadToSQL(client)
+		}else{
+			continue
+		}
+	}
+	return nil
+}
+
+func UploadToSQL(client *sql.DB){
+	//球隊名稱,星期,時間,球館,地址,強度,場地數,收費(男),收費(女),用球,隊長,備註
+`
+CREATE TABLE IF NOT EXISTS TeamData (
+	uid INT AUTO_INCREMENT NOT NULL UNIQUE KEY,
+	PRIMARY KEY(uid),
+	name VARCHAR(30),
+	day TINYINT,
+	startTime TINYINT,
+	endTime TINYINT,
+	courtName VARCHAR(30),
+	address VARCHAR(60),
+	fromLevel TINYINT,
+	toLevel TINYINT,
+	courtCount TINYINT,
+	feeM SMALLINT,
+	feeF SMALLINT,
+	minBallType TINYINT,
+	captain VARCHAR(30),
+	note VARCHAR(60));
+`
+}
+
 
 //DownloadFile from url and save to filepath
 func DownloadFile(filepath string, url string) error {
