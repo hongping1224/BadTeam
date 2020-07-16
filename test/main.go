@@ -18,7 +18,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	db, err := sql.Open("mysql", "admin:NanaDatabasePassword@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/badteam")
+	db, err := sql.Open("mysql", "admin:NanaDatabasePassword@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON")
 	if err != nil {
 		fmt.Printf(" sql.Open Error: %v\n", err)
 	}
