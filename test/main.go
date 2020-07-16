@@ -23,7 +23,8 @@ func main() {
 		fmt.Printf(" sql.Open Error: %v\n", err)
 	}
 	defer db.Close()
-	err = DropTable(db)
+	err = CreateTable(db)
+	//err = DropTable(db)
 	if err != nil {
 		fmt.Printf("DropTable Error: %v\n", err)
 	}
@@ -203,6 +204,43 @@ func DropTable(client *sql.DB) error {
 	return nil
 }
 
+func CreateTable(client *sql.DB) error {
+	/*DROP TABLE IF EXISTS TeamData; */
+	q := `
+	CREATE TABLE IF NOT EXISTS TeamData (
+		uid INT AUTO_INCREMENT NOT NULL UNIQUE KEY,
+		PRIMARY KEY(uid),
+		name VARCHAR(30),
+		day TINYINT,
+		startTime TINYINT,
+		endTime TINYINT,
+		courtName VARCHAR(30),
+		address VARCHAR(60),
+		fromLevel TINYINT,
+		toLevel TINYINT,
+		courtCount TINYINT,
+		feeM SMALLINT,
+		feeF SMALLINT,
+		minBallType TINYINT,
+		note VARCHAR(60));
+	`
+	rows, err := client.Query(q)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			// Check for a scan error.
+			// Query rows will be closed with defer.
+			log.Fatal(err)
+		}
+		fmt.Println(name)
+	}
+	return nil
+}
 func UploadToSQL(client *sql.DB) {
 	//球隊名稱,星期,時間,球館,地址,強度,場地數,收費(男),收費(女),用球,隊長,備註
 	/*`
