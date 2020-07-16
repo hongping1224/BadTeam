@@ -56,7 +56,8 @@ func UpdateData() error {
 	if err != nil {
 		return err
 	}
-	err = MapLocationToData(savePath, "./Combine.csv", locations)
+	outputPath := "./Combine.csv"
+	err = MapLocationToData(savePath, outputPath, locations)
 	if err != nil {
 		return err
 	}
@@ -100,10 +101,12 @@ func MapLocationToData(filepath, outpath string, locations map[string]Location) 
 		if p, ok := locations[record[addressColume]]; ok {
 			record = append(record, fmt.Sprintf("%.8f", p.Lon), fmt.Sprintf("%.8f", p.Lat))
 			w.Write(record)
+			//fmt.Println(p)
 		} else {
-			fmt.Println(record[addressColume])
+			fmt.Println("record not found", record[addressColume])
 		}
 	}
+	w.Flush()
 	return nil
 }
 
@@ -167,6 +170,10 @@ func UploadDataToDatabase(client *sql.DB, filePath string, locations map[string]
 	return nil
 }
 
+func DropTable(client *sql.DB) {
+	/*DROP TABLE IF EXISTS TeamData; */
+}
+
 func UploadToSQL(client *sql.DB) {
 	//球隊名稱,星期,時間,球館,地址,強度,場地數,收費(男),收費(女),用球,隊長,備註
 	/*`
@@ -185,7 +192,6 @@ func UploadToSQL(client *sql.DB) {
 		feeM SMALLINT,
 		feeF SMALLINT,
 		minBallType TINYINT,
-		captain VARCHAR(30),
 		note VARCHAR(60));
 	`*/
 }
