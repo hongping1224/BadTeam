@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -14,7 +15,18 @@ import (
 
 func main() {
 	err := UpdateData()
-	fmt.Println(err)
+	if err != nil {
+		fmt.Println(err)
+	}
+	db, err := sql.Open("mysql", "admin:NanaDatabasePassword@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/badteam")
+	if err != nil {
+		fmt.Printf(" sql.Open Error: %v\n", err)
+	}
+	defer db.Close()
+	err = DropTable(db)
+	if err != nil {
+		fmt.Printf("DropTable Error: %v\n", err)
+	}
 }
 
 //SetupCache by reading csv file from path
@@ -170,8 +182,25 @@ func UploadDataToDatabase(client *sql.DB, filePath string, locations map[string]
 	return nil
 }
 
-func DropTable(client *sql.DB) {
+func DropTable(client *sql.DB) error {
 	/*DROP TABLE IF EXISTS TeamData; */
+	q := "DROP TABLE IF EXISTS TeamData;"
+	rows, err := client.Query(q)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			// Check for a scan error.
+			// Query rows will be closed with defer.
+			log.Fatal(err)
+		}
+		fmt.Println(name)
+	}
+	return nil
 }
 
 func UploadToSQL(client *sql.DB) {
