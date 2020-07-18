@@ -10,7 +10,7 @@ import (
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
-	sq "github.com/hongping1224/BadTeam/sql"
+	"github.com/hongping1224/BadTeam/data"
 )
 
 func main() {
@@ -23,7 +23,7 @@ func main() {
 		fmt.Printf(" sql.Open Error: %v\n", err)
 	}
 	defer db.Close()
-	err = CreateTable(db)
+	err = data.CreateTable(db)
 	//err = DropTable(db)
 	if err != nil {
 		fmt.Printf("DropTable Error: %v\n", err)
@@ -77,7 +77,7 @@ func UpdateData() error {
 	return nil
 }
 
-func MapLocationToData(filepath, outpath string, locations map[string]sq.Location) error {
+func MapLocationToData(filepath, outpath string, locations map[string]data.Location) error {
 	csvfile, err := os.Open(filepath)
 	if err != nil {
 		return err
@@ -118,8 +118,8 @@ func MapLocationToData(filepath, outpath string, locations map[string]sq.Locatio
 	return nil
 }
 
-func CreateLocationMap(filePath string) (map[string]sq.Location, error) {
-	locations := make(map[string]Location)
+func CreateLocationMap(filePath string) (map[string]data.Location, error) {
+	locations := make(map[string]data.Location)
 	csvfile, err := os.Open(filePath)
 	if err != nil {
 		return locations, err
@@ -146,7 +146,7 @@ func CreateLocationMap(filePath string) (map[string]sq.Location, error) {
 		if err != nil {
 			return locations, err
 		}
-		locations[record[0]] = Location{Lon: lon, Lat: lat}
+		locations[record[0]] = data.Location{Lon: lon, Lat: lat}
 	}
 	return locations, nil
 }

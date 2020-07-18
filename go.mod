@@ -1,4 +1,4 @@
-module github.com/hongping1224/BadTeam/test
+module github.com/hongping1224/BadTeam
 
 go 1.14
 
