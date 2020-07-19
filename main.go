@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/csv"
 	"fmt"
+	"html/template"
 	"io"
 	"net/http"
 	"os"
@@ -18,16 +19,40 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
 	db, err := sql.Open("mysql", "admin:NanaDatabasePassword@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON")
 	if err != nil {
 		fmt.Printf(" sql.Open Error: %v\n", err)
 	}
 	defer db.Close()
-	err = data.CreateTable(db)
-	//err = DropTable(db)
 	if err != nil {
 		fmt.Printf("DropTable Error: %v\n", err)
 	}
+	outputPath := "./Combine.csv"
+
+	data.UploadDataToDatabase(db, outputPath)
+
+	http.HandleFunc("/", newsAggHandler)
+	fs := http.FileServer(http.Dir("./html"))
+	http.Handle("/html/", http.StripPrefix("/html/", fs))
+	http.ListenAndServe(":65000", nil)
+}
+
+type dataResult struct {
+	Result map[int]data.Data
+}
+
+func newsAggHandler(w http.ResponseWriter, r *http.Request) {
+	results := make(map[int]data.Data)
+	results[0] = data.Data{Name: "asd"}
+	results[1] = data.Data{Name: "aasd"}
+	results[2] = data.Data{Name: "aasdasd"}
+	p := dataResult{Result: results}
+	t, err := template.ParseFiles("./html/results.html")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	fmt.Println(t.Execute(w, p))
 }
 
 //SetupCache by reading csv file from path

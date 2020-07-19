@@ -7,6 +7,8 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type Location struct {
@@ -18,8 +20,8 @@ type Data struct {
 	UID         int
 	Name        string
 	Day         int8
-	StartTime   int8
-	EndTime     int8
+	StartTime   int16
+	EndTime     int16
 	CourtName   string
 	Address     string
 	FromLevel   int8
@@ -29,10 +31,26 @@ type Data struct {
 	FeeF        int16
 	MinBallType int8
 	Note        string
+	Location    Location
 }
 
-func NewData(record []string) {
+func NewData(record []string) Data {
+	d := Data{Name: record[0], CourtName: record[3], Address: record[4]}
+	day, _ := strconv.Atoi(record[1])
+	d.Day = int8(day)
+	timestr := strings.Split(record[2], "-")
+	startTime, _ := strconv.Atoi(timestr[0])
+	d.StartTime = int16(startTime)
+	endtime, _ := strconv.Atoi(timestr[1])
+	d.EndTime = int16(endtime)
+	return d
+}
 
+func ToStoreSQLCmd(data Data) string {
+	return fmt.Sprintf(
+		`INSERT INTO TeamData 
+	(name, day, startTime, endTime, courtName, address) VALUES  ('%s',%d,%d,%d,%s,%s);`,
+		data.Name, data.Day, data.StartTime, data.EndTime, data.CourtName, data.Address)
 }
 
 func CreateTable(client *sql.DB) error {
@@ -94,14 +112,13 @@ func DropTable(client *sql.DB) error {
 	return nil
 }
 
-func UploadDataToDatabase(client *sql.DB, filePath string, locations map[string]Location) error {
+func UploadDataToDatabase(client *sql.DB, filePath string) error {
 	csvfile, err := os.Open(filePath)
 	if err != nil {
 		return err
 	}
 	r := csv.NewReader(csvfile)
 	_, _ = r.Read()
-	addressColume := 4
 	for {
 		// Read each record from csv
 		record, err := r.Read()
@@ -111,34 +128,28 @@ func UploadDataToDatabase(client *sql.DB, filePath string, locations map[string]
 		if err != nil {
 			return err
 		}
-		if val, ok := locations[record[addressColume]]; ok {
-			UploadToSQL(client)
-			fmt.Println(val)
-		} else {
-			continue
-		}
+		data := NewData(record)
+		UploadToSQL(client, data)
 	}
 	return nil
 }
 
-func UploadToSQL(client *sql.DB) {
-	//球隊名稱,星期,時間,球館,地址,強度,場地數,收費(男),收費(女),用球,隊長,備註
-	/*`
-	CREATE TABLE IF NOT EXISTS TeamData (
-		uid INT AUTO_INCREMENT NOT NULL UNIQUE KEY,
-		PRIMARY KEY(uid),
-		name VARCHAR(30),
-		day TINYINT,
-		startTime TINYINT,
-		endTime TINYINT,
-		courtName VARCHAR(30),
-		address VARCHAR(60),
-		fromLevel TINYINT,
-		toLevel TINYINT,
-		courtCount TINYINT,
-		feeM SMALLINT,
-		feeF SMALLINT,
-		minBallType TINYINT,
-		note VARCHAR(60));
-	`*/
+func UploadToSQL(client *sql.DB, data Data) error {
+	cmd := ToStoreSQLCmd(data)
+	rows, err := client.Query(cmd)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			// Check for a scan error.
+			// Query rows will be closed with defer.
+			log.Fatal(err)
+		}
+		fmt.Println(name)
+	}
+	return nil
 }
