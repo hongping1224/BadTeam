@@ -59,19 +59,19 @@ func CreateTable(client *sql.DB) error {
 	CREATE TABLE IF NOT EXISTS TeamData (
 		uid INT AUTO_INCREMENT NOT NULL UNIQUE KEY,
 		PRIMARY KEY(uid),
-		name VARCHAR(30),
+		name VARBINARY(100),
 		day TINYINT,
 		startTime SMALLINT,
 		endTime SMALLINT,
-		courtName VARCHAR(30),
-		address VARCHAR(60),
+		courtName VARBINARY(60),
+		address VARBINARY(100),
 		fromLevel TINYINT,
 		toLevel TINYINT,
 		courtCount TINYINT,
 		feeM SMALLINT,
 		feeF SMALLINT,
 		minBallType TINYINT,
-		note VARCHAR(60));
+		note VARBINARY(100));
 	`
 	rows, err := client.Query(q)
 	if err != nil {
