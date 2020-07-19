@@ -15,6 +15,12 @@ import (
 	"github.com/hongping1224/BadTeam/data"
 )
 
+const (
+	combineOutputPath = "./Combine.csv"
+	savePath          = "./data.csv"
+	locationPath      = "./location.csv"
+)
+
 func main() {
 	fmt.Println("Start UpdateData")
 	err := UpdateData()
@@ -22,8 +28,10 @@ func main() {
 		fmt.Println(err)
 	}
 	fmt.Println("Finish UpdateData")
-
-	db, err := sql.Open("mysql", "admin:NanaDatabasePassword@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON")
+	user := os.Getenv("SQLUSER")
+	pass := os.Getenv("SQLPASS")
+	loginstr := fmt.Sprintf("%s:%s@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON", user, pass)
+	db, err := sql.Open("mysql", loginstr)
 	if err != nil {
 		fmt.Printf(" sql.Open Error: %v\n", err)
 	}
@@ -33,10 +41,19 @@ func main() {
 	}
 	data.DropTable(db)
 	data.CreateTable(db)
-	outputPath := "./Combine.csv"
 	fmt.Println("Start Upload")
-	data.UploadDataToDatabase(db, outputPath)
+	data.UploadDataToDatabase(db, combineOutputPath)
 	fmt.Println("Finish Upload")
+
+	test(db)
+
+	http.HandleFunc("/", newsAggHandler)
+	fs := http.FileServer(http.Dir("./html"))
+	http.Handle("/html/", http.StripPrefix("/html/", fs))
+	http.ListenAndServe(":65000", nil)
+}
+
+func test(db *sql.DB) {
 	rows, err := db.Query("SELECT address FROM TeamData")
 	if err != nil {
 		fmt.Println(err)
@@ -53,10 +70,6 @@ func main() {
 		}
 		fmt.Println(data.HexToString(name))
 	}
-	http.HandleFunc("/", newsAggHandler)
-	fs := http.FileServer(http.Dir("./html"))
-	http.Handle("/html/", http.StripPrefix("/html/", fs))
-	http.ListenAndServe(":65000", nil)
 }
 
 type dataResult struct {
@@ -76,37 +89,16 @@ func newsAggHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(t.Execute(w, p))
 }
 
-//SetupCache by reading csv file from path
-func SetupCache(path string) error {
-	file, err := os.Open(path)
-	if err != nil {
-		return err
-	}
-	reader := csv.NewReader(file)
-	for {
-		// Read each record from csv
-		record, err := reader.Read()
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			return err
-		}
-		fmt.Printf("Question: %s Answer %s\n", record[0], record[1])
-	}
-	return nil
-}
-
 //UpdateData download new data and refresh cache
 func UpdateData() error {
 	dataLink := "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGDH-jfWULsmOHH5jDTgDZDZPxdgMmnrM6TOrF8FzV6FJEYtbSTcRhONDNG21hfKge04nZ96oKA78I/pub?gid=0&single=true&output=csv"
-	savePath := "./data.csv"
+
 	err := DownloadFile(savePath, dataLink)
 	if err != nil {
 		return err
 	}
 	locationLink := "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGDH-jfWULsmOHH5jDTgDZDZPxdgMmnrM6TOrF8FzV6FJEYtbSTcRhONDNG21hfKge04nZ96oKA78I/pub?gid=1619494999&single=true&output=csv"
-	locationPath := "./location.csv"
+
 	err = DownloadFile(locationPath, locationLink)
 	if err != nil {
 		return err
@@ -115,8 +107,7 @@ func UpdateData() error {
 	if err != nil {
 		return err
 	}
-	outputPath := "./Combine.csv"
-	err = MapLocationToData(savePath, outputPath, locations)
+	err = MapLocationToData(savePath, combineOutputPath, locations)
 	if err != nil {
 		return err
 	}
