@@ -3,6 +3,7 @@ package data
 import (
 	"database/sql"
 	"encoding/csv"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"log"
@@ -49,8 +50,8 @@ func NewData(record []string) Data {
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address) VALUES  (%v,%d,%d,%d,%v,%v);`,
-		[]byte(data.Name), data.Day, data.StartTime, data.EndTime, []byte(data.CourtName), []byte(data.Address))
+	(name, day, startTime, endTime, courtName, address) VALUES  (UNHEX(%v),%d,%d,%d,%v,%v);`,
+		hex.EncodeToString([]byte(data.Name)), data.Day, data.StartTime, data.EndTime, hex.EncodeToString([]byte(data.CourtName)), hex.EncodeToString([]byte(data.Address)))
 }
 
 func CreateTable(client *sql.DB) error {
