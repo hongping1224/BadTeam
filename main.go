@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -34,7 +35,22 @@ func main() {
 	fmt.Println("Start Upload")
 	data.UploadDataToDatabase(db, outputPath)
 	fmt.Println("Finish Upload")
+	rows, err := db.Query("SELECT address FROM TeamData")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer rows.Close()
 
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			// Check for a scan error.
+			// Query rows will be closed with defer.
+			log.Fatal(err)
+		}
+		fmt.Println(name)
+	}
 	http.HandleFunc("/", newsAggHandler)
 	fs := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fs))
