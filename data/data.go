@@ -49,8 +49,8 @@ func NewData(record []string) Data {
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address) VALUES  ("%s",%d,%d,%d,"%s","%s");`,
-		data.Name, data.Day, data.StartTime, data.EndTime, data.CourtName, data.Address)
+	(name, day, startTime, endTime, courtName, address) VALUES  (%v,%d,%d,%d,%v,%v);`,
+		[]byte(data.Name), data.Day, data.StartTime, data.EndTime, []byte(data.CourtName), []byte(data.Address))
 }
 
 func CreateTable(client *sql.DB) error {
