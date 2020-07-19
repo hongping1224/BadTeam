@@ -58,6 +58,11 @@ func stringToHex(s string) string {
 	return hex.EncodeToString([]byte(s))
 }
 
+func HexToString(s string) string {
+	b, _ := hex.DecodeString(s)
+	return string(b)
+}
+
 func CreateTable(client *sql.DB) error {
 	/*DROP TABLE IF EXISTS TeamData; */
 	q := `

@@ -45,13 +45,13 @@ func main() {
 	defer rows.Close()
 
 	for rows.Next() {
-		var name []byte
+		var name string
 		if err := rows.Scan(&name); err != nil {
 			// Check for a scan error.
 			// Query rows will be closed with defer.
 			log.Fatal(err)
 		}
-		fmt.Println(string(name))
+		fmt.Println(data.HexToString(name))
 	}
 	http.HandleFunc("/", newsAggHandler)
 	fs := http.FileServer(http.Dir("./html"))
