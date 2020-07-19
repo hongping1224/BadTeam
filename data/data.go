@@ -49,7 +49,7 @@ func NewData(record []string) Data {
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address) VALUES  ('%s',%d,%d,%d,%s,%s);`,
+	(name, day, startTime, endTime, courtName, address) VALUES  ("%s",%d,%d,%d,"%s","%s");`,
 		data.Name, data.Day, data.StartTime, data.EndTime, data.CourtName, data.Address)
 }
 
@@ -139,6 +139,7 @@ func UploadDataToDatabase(client *sql.DB, filePath string) error {
 
 func UploadToSQL(client *sql.DB, data Data) error {
 	cmd := ToStoreSQLCmd(data)
+	fmt.Println(cmd)
 	rows, err := client.Query(cmd)
 	if err != nil {
 		return err
