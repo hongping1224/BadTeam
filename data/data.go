@@ -50,8 +50,12 @@ func NewData(record []string) Data {
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address) VALUES  (UNHEX(%v),%d,%d,%d,%v,%v);`,
-		hex.EncodeToString([]byte(data.Name)), data.Day, data.StartTime, data.EndTime, hex.EncodeToString([]byte(data.CourtName)), hex.EncodeToString([]byte(data.Address)))
+	(name, day, startTime, endTime, courtName, address) VALUES  (%s,%d,%d,%d,%s,%s);`,
+		stringToHex(data.Name), data.Day, data.StartTime, data.EndTime, stringToHex(data.CourtName), stringToHex(data.Address))
+}
+
+func stringToHex(s string) string {
+	return hex.EncodeToString([]byte(s))
 }
 
 func CreateTable(client *sql.DB) error {
@@ -60,19 +64,19 @@ func CreateTable(client *sql.DB) error {
 	CREATE TABLE IF NOT EXISTS TeamData (
 		uid INT AUTO_INCREMENT NOT NULL UNIQUE KEY,
 		PRIMARY KEY(uid),
-		name VARBINARY(100),
+		name VARCHAR(100),
 		day TINYINT,
 		startTime SMALLINT,
 		endTime SMALLINT,
-		courtName VARBINARY(60),
-		address VARBINARY(100),
+		courtName VARCHAR(60),
+		address VARCHAR(100),
 		fromLevel TINYINT,
 		toLevel TINYINT,
 		courtCount TINYINT,
 		feeM SMALLINT,
 		feeF SMALLINT,
 		minBallType TINYINT,
-		note VARBINARY(100));
+		note VARCHAR(100));
 	`
 	rows, err := client.Query(q)
 	if err != nil {
