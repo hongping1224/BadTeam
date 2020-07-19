@@ -17,6 +17,8 @@
             <script src="html/js/vendor/html5-3.6-respond-1.4.2.min.js"></script>
         <![endif]-->
     </head>
+
+
     <body style="padding-top: 40px;">
       <div class="container">
         <div class="row">
@@ -24,16 +26,15 @@
 
             <form>
               <div class="form-group text-center">
-                <label for="search-query">simple-search</label>
-                <input type="text" class="form-control" id="search-query" name="search-query" placeholder="Type your query">
+                <label for="search-query">Badminton Team</label>
+                <!--input type="text" class="form-control" id="search-query" name="search-query" placeholder="Type your query"-->
               </div>
 
               <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary">Search</button>
-                <a id="advanced-search-button" class="btn btn-default">Advanced search</a>
               </div>
 
-              <div class="form-group advanced-search-panel">
+              <div class="form-group">
                 <div class="panel panel-default">
                   <ul class="list-group">
 
@@ -41,19 +42,64 @@
                     <li class="list-group-item">
                       <div class="form-group">
                         <div class="col-xs-4">
-                          <label for="search-location">Option 1</label>
+                          <label for="Time">Time</label>
                         </div>
 
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option1" autocomplete="off" checked>
-                              Checkbox 1
+                              StartTime
+                              <input type="time" name="startTime" value="00:00"  autocomplete="off">
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-6">
+                              EndTime
+                              <input type="time" name="endTime" value="23:59" autocomplete="off">
+                            </fieldset>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="clearfix"></div>
+                    </li>
+                    
+
+
+                    <li class="list-group-item">
+                      <div class="form-group">
+                        <div class="col-xs-4">
+                          <label for="Day">Day</label>
+                        </div>
+
+                        <div class="col-xs-8">
+                          <div class="row">
+                            <fieldset class="col-xs-12 col-sm-6">
+                              <input type="checkbox" name="mon"  autocomplete="off">
+                              Monday
                             </fieldset>
                                 
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="Option 2" autocomplete="off" checked>
-                              Checkbox 2
+                              <input type="checkbox" name="tue"  autocomplete="off">
+                              Tuesday
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-6">
+                              <input type="checkbox" name="wed" autocomplete="off">
+                              Wednesday
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-6">
+                              <input type="checkbox" name="thu"  autocomplete="off">
+                              Thursday
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-6">
+                              <input type="checkbox" name="fri"autocomplete="off">
+                              Friday
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-6">
+                              <input type="checkbox" name="sat"  autocomplete="off">
+                              Saturday
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-6">
+                              <input type="checkbox" name="sun"autocomplete="off">
+                              Sunday
                             </fieldset>
                           </div>
                         </div>
@@ -65,44 +111,19 @@
                     <li class="list-group-item">
                       <div class="form-group">
                         <div class="col-xs-4">
-                          <label for="search-location">Option 2</label>
+                          <label for="My Location">Location</label>
                         </div>
 
                         <div class="col-xs-8">
-                          <div class="row">
-                            <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option1" autocomplete="off" checked>
-                              Checkbox 1
-                            </fieldset>
+                          <div class="row", name="locationLabel">
 
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option2" autocomplete="off" checked>
-                              Checkbox 2
+                              Longitude
+                              <input type="number" id="lon" name="lon" step=any value=0  autocomplete="off">
                             </fieldset>
-                              
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option3" autocomplete="off" checked>
-                              Checkbox 3
-                            </fieldset>
-                              
-                            <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option4" autocomplete="off" checked>
-                              Checkbox 4
-                            </fieldset>
-                              
-                            <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option5" autocomplete="off" checked>
-                              Checkbox 5
-                            </fieldset>
-                              
-                            <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option6" autocomplete="off" checked>
-                              Checkbox 6
-                            </fieldset>
-                              
-                            <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="search-location" value="option7" autocomplete="off" checked>
-                              Checkbox 7
+                              Latitude
+                              <input type="number" id="lat" name="lat" step=any value=0  autocomplete="off">
                             </fieldset>
                           </div>
                         </div>
@@ -129,7 +150,6 @@
             <div class="tab-content"  style="width: 100%" >
               <div role="tabpanel" class="tab-pane tab-body active" id="results1"  style="width: 100%">
                 <div class="list-group"  style="width: 100%">
-                 
                   {{ range $key, $value := .Result }}
                     <div class="panel panel-default list-group-item">
                       <div class="panel-body">
@@ -168,5 +188,47 @@
       <script src="html/js/vendor/jquery-1.11.2.min.js"></script>
       <script src="html/js/vendor/bootstrap.min.js"></script>
       <script src="html/js/main.js"></script>
+      
+    <script>
+      // Set up global variable
+      var lon;
+      var lat;
+      var locationLabel;
+      function showPosition() {
+          // Store the element where the page displays the result
+          lon = document.getElementById("lon");
+          lat = document.getElementById("lat");
+          locationLabel = document.getElementById("locationLabel");
+          
+          // If geolocation is available, try to get the visitor's position
+          if(navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+          } else {
+              locationLabel.innerHTML ="Sorry, your browser does not support HTML5 geolocation.";
+          }
+      };
+      
+      // Define callback function for successful attempt
+      function successCallback(position) {
+          lon.value =  position.coords.longitude 
+          lat.value = position.coords.latitude
+
+      }
+      
+      // Define callback function for failed attempt
+      function errorCallback(error) {
+          if(error.code == 1) {
+            locationLabel.innerHTML = "You've decided not to share your position, but it's OK. We won't ask you again.";
+          } else if(error.code == 2) {
+            locationLabel.innerHTML = "The network is down or the positioning service can't be reached.";
+          } else if(error.code == 3) {
+            locationLabel.innerHTML = "The attempt timed out before it could get the location data.";
+          } else {
+            locationLabel.innerHTML = "Geolocation failed due to unknown error.";
+          }
+      }
+      showPosition()
+  </script>
+
     </body>
 </html>

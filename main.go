@@ -22,7 +22,7 @@ const (
 )
 
 func main() {
-	fmt.Println("Start UpdateData")
+	/*fmt.Println("Start UpdateData")
 	err := UpdateData()
 	if err != nil {
 		fmt.Println(err)
@@ -48,10 +48,12 @@ func main() {
 	fmt.Println("Start Test")
 	test(db)
 	fmt.Println("Finish Test")
-
+	*/
 	http.HandleFunc("/", newsAggHandler)
+
 	fs := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fs))
+
 	fmt.Println("Start Host on port 65000")
 	http.ListenAndServe(":65000", nil)
 }
