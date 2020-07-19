@@ -129,7 +129,10 @@ func UploadDataToDatabase(client *sql.DB, filePath string) error {
 			return err
 		}
 		data := NewData(record)
-		UploadToSQL(client, data)
+		err = UploadToSQL(client, data)
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 	return nil
 }
