@@ -50,7 +50,7 @@ func NewData(record []string) Data {
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address) VALUES  (%s,%d,%d,%d,%s,%s);`,
+	(name, day, startTime, endTime, courtName, address) VALUES  ("%s",%d,%d,%d,"%s","%s");`,
 		stringToHex(data.Name), data.Day, data.StartTime, data.EndTime, stringToHex(data.CourtName), stringToHex(data.Address))
 }
 
