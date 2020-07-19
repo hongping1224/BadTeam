@@ -31,6 +31,8 @@ func main() {
 	if err != nil {
 		fmt.Printf("DropTable Error: %v\n", err)
 	}
+	data.DropTable(db)
+	data.CreateTable(db)
 	outputPath := "./Combine.csv"
 	fmt.Println("Start Upload")
 	data.UploadDataToDatabase(db, outputPath)
