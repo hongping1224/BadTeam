@@ -86,7 +86,7 @@ func CreateTable(client *sql.DB) error {
 			// Query rows will be closed with defer.
 			log.Fatal(err)
 		}
-		fmt.Println(name)
+		fmt.Println(string([]byte(name)))
 	}
 	return nil
 }
