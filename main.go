@@ -122,6 +122,10 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 					// Query rows will be closed with defer.
 					log.Fatal(err)
 				}
+				name.Name = data.HexToString(name.Name)
+				name.Address = data.HexToString(name.Address)
+				name.MinBallType = data.HexToString(name.MinBallType)
+				name.Note = data.HexToString(name.Note)
 				fmt.Println(name)
 			}
 		}
