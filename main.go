@@ -58,8 +58,6 @@ func main() {
 type dataResult struct {
 	Result map[int]data.Data
 	Init   string
-	Day    string
-	Level  string
 	Time   string
 }
 
@@ -85,7 +83,6 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			fmt.Println(cmd)
 			rows, err := db.Query(cmd)
-			p.Level = r.Form["lv"][0]
 			p.Time = r.Form["traintime"][0]
 			fmt.Println("finish Query")
 			if err != nil {

@@ -14,7 +14,6 @@ import (
 
 func GenerateSearchCmd(form map[string][]string) (string, error) {
 	var trainTime int16
-	var level int8
 	if val, ok := form["traintime"]; ok {
 		if len(val) > 0 {
 			trainTime = parseRequestTime(val[0])
@@ -22,17 +21,30 @@ func GenerateSearchCmd(form map[string][]string) (string, error) {
 	}
 	day := parseRequestAllDay(form)
 	dayquery := getDayQuery(day)
-	if val, ok := form["lv"]; ok {
-		if len(val) > 0 {
-			level = parseRequestLevel(val[0])
-		}
-	}
-	fmt.Println(level)
-	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE (fromLevel<=%d AND toLevel>=%d AND startTime<=%d AND endTime>=%d) %s ;", level, level, trainTime, trainTime, dayquery)
+	level := parseRequestAllLevel(form)
+	levelquery := getLevelQuery(level)
+	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE (startTime<=%d AND endTime>=%d) %s %s;", level, level, trainTime, trainTime, dayquery, levelquery)
 	return cmd, nil
 }
 
 func getDayQuery(b []bool) string {
+	s := ""
+	for i, bo := range b {
+		if bo == true {
+			if s == "" {
+				s = fmt.Sprintf("AND ((fromLevel<=%d AND toLevel>=%d)", i, i)
+			} else {
+				s += fmt.Sprintf(" OR (fromLevel<=%d AND toLevel>=%d)", i, i)
+			}
+		}
+	}
+	if s != "" {
+		s += ")"
+	}
+	return s
+}
+
+func getLevelQuery(b []bool) string {
 	s := ""
 	for i, bo := range b {
 		if bo == true {
@@ -54,6 +66,20 @@ func parseRequestLevel(s string) int8 {
 		return int8(val)
 	}
 	return 0
+}
+
+func parseRequestAllLevel(form map[string][]string) []bool {
+	levels := []string{"lv0", "lv1", "lv2", "lv3", "lv4", "lv5"}
+	b := make([]bool, 6)
+	print(form)
+	for i, level := range levels {
+		if val, ok := form[level]; ok {
+			if len(val) > 0 {
+				b[i] = true
+			}
+		}
+	}
+	return b
 }
 
 func parseRequestAllDay(form map[string][]string) []bool {
