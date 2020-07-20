@@ -81,6 +81,7 @@ func test(db *sql.DB) {
 
 type dataResult struct {
 	Result map[int]data.Data
+	Init   string
 }
 
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
@@ -132,7 +133,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	fmt.Println("returning")
-	p := dataResult{Result: results}
+	p := dataResult{Result: results, Init: "Init();"}
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
