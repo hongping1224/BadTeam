@@ -14,6 +14,7 @@ type Data struct {
 	UID         int
 	Name        string
 	Day         int8
+	Daystr      string
 	StartTime   int16
 	EndTime     int16
 	CourtName   string
@@ -89,6 +90,26 @@ func parseLevel(s string) (from, to int8) {
 		}
 	}
 	return
+}
+
+func Day2DayStr(d int8) string {
+	switch d {
+	case 1:
+		return "一"
+	case 2:
+		return "二"
+	case 3:
+		return "三"
+	case 4:
+		return "四"
+	case 5:
+		return "五"
+	case 6:
+		return "六"
+	case 7:
+		return "日"
+	}
+	return ""
 }
 
 func parseDay(s string) int8 {

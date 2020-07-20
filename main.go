@@ -111,31 +111,32 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			defer rows.Close()
 			for rows.Next() {
-				var name data.Data
-				if err := rows.Scan(&name.UID,
-					&name.Name,
-					&name.Day,
-					&name.StartTime,
-					&name.EndTime,
-					&name.CourtName,
-					&name.Address,
-					&name.FromLevel,
-					&name.ToLevel,
-					&name.CourtCount,
-					&name.FeeM,
-					&name.FeeF,
-					&name.MinBallType,
-					&name.Note); err != nil {
+				var recordData data.Data
+				if err := rows.Scan(&recordData.UID,
+					&recordData.Name,
+					&recordData.Day,
+					&recordData.StartTime,
+					&recordData.EndTime,
+					&recordData.CourtName,
+					&recordData.Address,
+					&recordData.FromLevel,
+					&recordData.ToLevel,
+					&recordData.CourtCount,
+					&recordData.FeeM,
+					&recordData.FeeF,
+					&recordData.MinBallType,
+					&recordData.Note); err != nil {
 					// Check for a scan error.
 					// Query rows will be closed with defer.
 					log.Fatal(err)
 				}
-				name.Name = data.HexToString(name.Name)
-				name.CourtName = data.HexToString(name.CourtName)
-				name.Address = data.HexToString(name.Address)
-				name.MinBallType = data.HexToString(name.MinBallType)
-				name.Note = data.HexToString(name.Note)
-				results[name.UID] = name
+				recordData.Name = data.HexToString(recordData.Name)
+				recordData.CourtName = data.HexToString(recordData.CourtName)
+				recordData.Address = data.HexToString(recordData.Address)
+				recordData.MinBallType = data.HexToString(recordData.MinBallType)
+				recordData.Note = data.HexToString(recordData.Note)
+				recordData.Daystr = data.Day2DayStr(recordData.Day)
+				results[recordData.UID] = recordData
 
 			}
 

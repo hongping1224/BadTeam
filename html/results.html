@@ -197,6 +197,7 @@
                                 <table class="table" style="width: 100%" >
                                   <tr>
                                     <th>球隊名稱</th>
+                                    <th>星期</th>
                                     <th>時間</th>
                                     <th>球館</th>
                                     <th>地址</th>
@@ -210,6 +211,7 @@
                                   {{ range $key, $value := .Result }}
                                   <tr>
                                     <th>{{ $value.Name }}</th>
+                                    <th>{{ $value.Daystr }}</th>
                                     <th>{{ $value.StartTime }} - {{ $value.EndTime }}</th>
                                     <th>{{ $value.CourtName }}</th>
                                     <th>{{ $value.Address }}</th>
