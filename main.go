@@ -85,7 +85,6 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			fmt.Println(cmd)
 			rows, err := db.Query(cmd)
-			p.Day = r.Form["day"][0]
 			p.Level = r.Form["lv"][0]
 			p.Time = r.Form["traintime"][0]
 			fmt.Println("finish Query")
