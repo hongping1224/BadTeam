@@ -128,13 +128,11 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				name.Address = data.HexToString(name.Address)
 				name.MinBallType = data.HexToString(name.MinBallType)
 				name.Note = data.HexToString(name.Note)
-				fmt.Println(name)
+				results[name.UID] = name
 			}
 		}
 	}
 	fmt.Println("returning")
-
-	results[0] = data.Data{Name: "asd"}
 	p := dataResult{Result: results}
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {
