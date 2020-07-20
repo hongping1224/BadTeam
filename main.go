@@ -95,6 +95,22 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		cmd, err := data.GenerateSearchCmd(r.Form)
 		if err == nil {
 			fmt.Println(cmd)
+			rows, err := db.Query(cmd)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			defer rows.Close()
+
+			for rows.Next() {
+				var name string
+				if err := rows.Scan(&name); err != nil {
+					// Check for a scan error.
+					// Query rows will be closed with defer.
+					log.Fatal(err)
+				}
+				fmt.Println(data.HexToString(name))
+			}
 		}
 	}
 
