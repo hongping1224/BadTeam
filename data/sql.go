@@ -23,7 +23,7 @@ func GenerateSearchCmd(form map[string][]string) (string, error) {
 	dayquery := getDayQuery(day)
 	level := parseRequestAllLevel(form)
 	levelquery := getLevelQuery(level)
-	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE (startTime<=%d AND endTime>=%d) %s %s;", level, level, trainTime, trainTime, dayquery, levelquery)
+	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE (startTime<=%d AND endTime>=%d) %s %s;", trainTime, trainTime, dayquery, levelquery)
 	return cmd, nil
 }
 
