@@ -75,7 +75,6 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
-
 	results := make(map[int]data.Data)
 	p := dataResult{Init: "init"}
 	if r.Method == http.MethodPost {
