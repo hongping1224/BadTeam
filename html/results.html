@@ -68,32 +68,32 @@
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="mon"  autocomplete="off">
+                              <input type="radio" name="day"  id="mon" value="mon"  autocomplete="off">
                               Monday
                             </fieldset>
                                 
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="tue"  autocomplete="off">
+                              <input type="radio" name="day" id="tue" value="tue"  autocomplete="off">
                               Tuesday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="wed" autocomplete="off">
+                              <input type="radio" name="day"  id="wed" value="wed" autocomplete="off">
                               Wednesday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="thu"  autocomplete="off">
+                              <input type="radio" name="day"  id="thu" value="thu"  autocomplete="off">
                               Thursday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="fri"autocomplete="off">
+                              <input type="radio" name="day"  id="fri" value="fri"autocomplete="off">
                               Friday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="sat"  autocomplete="off">
+                              <input type="radio" name="day"  id="sat" value="sat"  autocomplete="off">
                               Saturday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="radio" name="day" value="sun"autocomplete="off">
+                              <input type="radio" name="day"  id="sun" value="sun"autocomplete="off">
                               Sunday
                             </fieldset>
                           </div>
@@ -116,7 +116,7 @@
                               0
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="1" autocomplete="off" checked>
+                              <input type="radio" name="lv" value ="1" autocomplete="off">
                               1
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
@@ -265,6 +265,13 @@
           }
       }
       showPosition()
+      function init() {
+        var today = new Date();
+        var day = today.getDay();
+        var ds = ["sun","mon","tue","wed","thu","fri","sat"]
+        document.getElementById(ds[day]).checked = true;
+      }
+      init()
   </script>
 
     </body>
