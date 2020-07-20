@@ -68,31 +68,31 @@
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day"  id="mon" value="mon"  autocomplete="off">
+                              <input type="checkbox" name="mon"  id="mon" value="mon"  autocomplete="off">
                               Monday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day" id="tue" value="tue"  autocomplete="off">
+                              <input type="checkbox" name="tue" id="tue" value="tue"  autocomplete="off">
                               Tuesday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day"  id="wed" value="wed" autocomplete="off">
+                              <input type="checkbox" name="wed"  id="wed" value="wed" autocomplete="off">
                               Wednesday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day"  id="thu" value="thu"  autocomplete="off">
+                              <input type="checkbox" name="thu"  id="thu" value="thu"  autocomplete="off">
                               Thursday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day"  id="fri" value="fri"autocomplete="off">
+                              <input type="checkbox" name="fri"  id="fri" value="fri"autocomplete="off">
                               Friday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day"  id="sat" value="sat"  autocomplete="off">
+                              <input type="checkbox" name="sat"  id="sat" value="sat"  autocomplete="off">
                               Saturday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="day"  id="sun" value="sun"autocomplete="off">
+                              <input type="checkbox" name="sun"  id="sun" value="sun" autocomplete="off">
                               Sunday
                             </fieldset>
                           </div>
@@ -281,10 +281,9 @@
           }
       }
       showPosition()*/
-      function init(s,time,day,level) {
+      function init(s,time,level) {
         if (s!="init"){
           document.getElementById("traintime").value = time;
-          document.getElementById(day).checked = true;
           document.getElementById("lv"+level).checked = true;
           return
         }
@@ -295,7 +294,7 @@
         document.getElementById("traintime").value = today.getHours() + ":" + today.getMinutes();
 
       }
-      init({{.Init}},{{.Time}},{{.Day}},{{.Level}});
+      init({{.Init}},{{.Time}},{{.Level}});
   </script>
 
     </body>

@@ -14,19 +14,14 @@ import (
 
 func GenerateSearchCmd(form map[string][]string) (string, error) {
 	var trainTime int16
-	var day, level int8
+	var level int8
 	if val, ok := form["traintime"]; ok {
 		if len(val) > 0 {
 			trainTime = parseRequestTime(val[0])
 		}
 	}
 	fmt.Println(trainTime)
-	if val, ok := form["day"]; ok {
-		if len(val) > 0 {
-			day = parseRequestDay(val[0])
-		}
-	}
-
+	day := parseRequestAllDay(form)
 	fmt.Println(day)
 	if val, ok := form["lv"]; ok {
 		if len(val) > 0 {
@@ -34,7 +29,7 @@ func GenerateSearchCmd(form map[string][]string) (string, error) {
 		}
 	}
 	fmt.Println(level)
-	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE fromLevel<=%d AND toLevel>=%d AND day=%d AND startTime<=%d AND endTime>=%d;", level, level, day, trainTime, trainTime)
+	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE fromLevel<=%d AND toLevel>=%d AND startTime<=%d AND endTime>=%d;", level, level, trainTime, trainTime)
 	return cmd, nil
 }
 
@@ -46,7 +41,16 @@ func parseRequestLevel(s string) int8 {
 }
 
 func parseRequestAllDay(form map[string][]string) []bool {
-	return []bool{}
+	days := []string{"mon", "tue", "wed", "thu", "fri", "sat", "sun"}
+	b := make([]bool, 7)
+	for i, day := range days {
+		if val, ok := form[day]; ok {
+			if len(val) > 0 {
+				b[i] = true
+			}
+		}
+	}
+	return b
 }
 
 func parseRequestDay(s string) int8 {
