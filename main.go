@@ -134,6 +134,8 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				results[name.UID] = name
 
 				p.Day = r.Form["day"][0]
+				fmt.Println(r.Form["day"][0])
+				fmt.Println(r.Form["lv"][0])
 				p.Level = r.Form["lv"][0]
 			}
 		}
