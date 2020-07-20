@@ -48,12 +48,7 @@
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
-                              StartTime
-                              <input type="time" name="startTime" value="00:00" minuteStepping="10" autocomplete="off">
-                            </fieldset>
-                            <fieldset class="col-xs-12 col-sm-6">
-                              EndTime
-                              <input type="time" name="endTime" value="23:59"  minuteStepping="10" autocomplete="off">
+                              <input type="time" name="traintime" value="00:00"  autocomplete="off">
                             </fieldset>
                           </div>
                         </div>
@@ -73,33 +68,72 @@
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="mon"  autocomplete="off">
+                              <input type="radio" name="day" value="mon"  autocomplete="off">
                               Monday
                             </fieldset>
                                 
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="tue"  autocomplete="off">
+                              <input type="radio" name="day" value="tue"  autocomplete="off">
                               Tuesday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="wed" autocomplete="off">
+                              <input type="radio" name="day" value="wed" autocomplete="off">
                               Wednesday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="thu"  autocomplete="off">
+                              <input type="radio" name="day" value="thu"  autocomplete="off">
                               Thursday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="fri"autocomplete="off">
+                              <input type="radio" name="day" value="fri"autocomplete="off">
                               Friday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="sat"  autocomplete="off">
+                              <input type="radio" name="day" value="sat"  autocomplete="off">
                               Saturday
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="checkbox" name="sun"autocomplete="off">
+                              <input type="radio" name="day" value="sun"autocomplete="off">
                               Sunday
+                            </fieldset>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="clearfix"></div>
+                    </li>
+
+                    <li class="list-group-item">
+                      <div class="form-group">
+                        <div class="col-xs-4">
+                          <label for="Level">Level</label>
+                        </div>
+
+                        <div class="col-xs-8">
+                          <div class="row">
+                            <fieldset class="col-xs-12 col-sm-2">
+                              <input type="radio" name="lv" value ="0" autocomplete="off" checked>
+                              0
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-2">
+                              <input type="radio" name="lv" value ="1" autocomplete="off" checked>
+                              1
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-2">
+                              <input type="radio" name="lv" value ="2"  autocomplete="off"> 
+                              2
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-2">
+                              <input type="radio" name="lv" value ="3" autocomplete="off">
+                              3
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-2">
+                              <input type="radio" name="lv" value ="4"  autocomplete="off">
+                              4
+                            </fieldset>
+                            <fieldset class="col-xs-12 col-sm-2">
+                              <input type="radio" name="lv" value ="5" autocomplete="off">
+                              5
                             </fieldset>
                           </div>
                         </div>

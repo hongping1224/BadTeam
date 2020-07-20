@@ -21,6 +21,8 @@ const (
 	locationPath      = "./location.csv"
 )
 
+var db *sql.DB
+
 func main() {
 	/*fmt.Println("Start UpdateData")
 	err := UpdateData()
@@ -31,7 +33,7 @@ func main() {
 	user := os.Getenv("SQLUSER")
 	pass := os.Getenv("SQLPASS")
 	loginstr := fmt.Sprintf("%s:%s@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON", user, pass)
-	db, err := sql.Open("mysql", loginstr)
+	db, err = sql.Open("mysql", loginstr)
 	if err != nil {
 		fmt.Printf(" sql.Open Error: %v\n", err)
 	}
@@ -82,23 +84,27 @@ type dataResult struct {
 }
 
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method)
+
+	results := make(map[int]data.Data)
+
 	if r.Method == http.MethodPost {
 		err := r.ParseForm()
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 		}
-		fmt.Println(len(r.Form["endTime"]))
+		cmd, err := data.GenerateSearchCmd(r.Form)
+		if err == nil {
+			fmt.Println(cmd)
+		}
 	}
 
-	results := make(map[int]data.Data)
 	results[0] = data.Data{Name: "asd"}
 	p := dataResult{Result: results}
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	fmt.Println(t.Execute(w, p))
+	t.Execute(w, p)
 }
 
 //UpdateData download new data and refresh cache

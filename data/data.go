@@ -50,7 +50,29 @@ func NewData(record []string) Data {
 	d.Day = parseDay(record[dayCol])
 	d.StartTime, d.EndTime = parseTime(record[timeCol])
 	d.Location = parseLocation(record[lonCol], record[latCol])
+	d.FromLevel, d.ToLevel = parseLevel(record[levelCol])
 	return d
+}
+
+func parseLevel(s string) (from, to int8) {
+	if len(s) == 1 {
+		if val, err := strconv.Atoi(s); err == nil {
+			return int8(val), int8(val)
+		}
+	} else if strings.Contains(s, "-") {
+		ss := strings.Split(s, "-")
+		if val, err := strconv.Atoi(ss[0]); err == nil {
+			from = int8(val)
+		} else {
+			return
+		}
+		if val, err := strconv.Atoi(ss[1]); err == nil {
+			to = int8(val)
+		} else {
+			return 0, 0
+		}
+	}
+	return
 }
 
 func parseDay(s string) int8 {

@@ -8,13 +8,86 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
+	"strings"
 )
+
+func GenerateSearchCmd(form map[string][]string) (string, error) {
+	var trainTime int16
+	var day, level int8
+	if val, ok := form["traintime"]; ok {
+		if len(val) > 0 {
+			trainTime = parseRequestTime(val[0])
+		}
+	}
+	fmt.Println(trainTime)
+	if val, ok := form["day"]; ok {
+		if len(val) > 0 {
+			day = parseRequestDay(val[0])
+		}
+	}
+
+	fmt.Println(day)
+	if val, ok := form["lv"]; ok {
+		if len(val) > 0 {
+			level = parseRequestLevel(val[0])
+		}
+	}
+	fmt.Println(level)
+	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE fromLevel<=%d AND toLevel>=%d AND day=%d AND startTime<=%d AND endTime>=%d", level, level, day, trainTime, trainTime)
+	return cmd, nil
+}
+
+func parseRequestLevel(s string) int8 {
+	if val, err := strconv.Atoi(s); err == nil {
+		return int8(val)
+	}
+	return 0
+}
+
+func parseRequestDay(s string) int8 {
+
+	switch s {
+	case "mon":
+		return 1
+	case "tue":
+		return 2
+	case "wed":
+		return 3
+	case "thu":
+		return 4
+	case "fri":
+		return 5
+	case "sat":
+		return 6
+	case "sun":
+		return 7
+	}
+
+	return 0
+}
+
+func parseRequestTime(s string) int16 {
+	sp := strings.Split(s, ":")
+	if len(sp) < 2 {
+		return 0
+	}
+	h, err := strconv.Atoi(sp[0])
+	if err != nil {
+		return 0
+	}
+	m, err := strconv.Atoi(sp[1])
+	if err != nil {
+		return 0
+	}
+	return int16((h * 100) + m)
+}
 
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address) VALUES  ("%s",%d,%d,%d,"%s","%s");`,
-		StringToHex(data.Name), data.Day, data.StartTime, data.EndTime, StringToHex(data.CourtName), StringToHex(data.Address))
+	(name, day, startTime, endTime, courtName, address,fromLevel,toLevel) VALUES  ("%s",%d,%d,%d,"%s","%s",%d,%d);`,
+		StringToHex(data.Name), data.Day, data.StartTime, data.EndTime, StringToHex(data.CourtName), StringToHex(data.Address), data.FromLevel, data.ToLevel)
 }
 
 func StringToHex(s string) string {
