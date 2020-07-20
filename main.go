@@ -49,7 +49,7 @@ func main() {
 	test(db)
 	fmt.Println("Finish Test")
 	*/
-	http.HandleFunc("/", newsAggHandler)
+	http.HandleFunc("/", HomePageHandler)
 
 	fs := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fs))
@@ -81,11 +81,18 @@ type dataResult struct {
 	Result map[int]data.Data
 }
 
-func newsAggHandler(w http.ResponseWriter, r *http.Request) {
+func HomePageHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Method)
+	if r.Method == http.MethodPost {
+		err := r.ParseForm()
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+		}
+		fmt.Println(len(r.Form["endTime"]))
+	}
+
 	results := make(map[int]data.Data)
 	results[0] = data.Data{Name: "asd"}
-	results[1] = data.Data{Name: "aasd"}
-	results[2] = data.Data{Name: "aasdasd"}
 	p := dataResult{Result: results}
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {

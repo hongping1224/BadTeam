@@ -24,14 +24,14 @@
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 
-            <form>
+            <form  method="POST">
               <div class="form-group text-center">
                 <label for="search-query">Badminton Team</label>
                 <!--input type="text" class="form-control" id="search-query" name="search-query" placeholder="Type your query"-->
               </div>
 
               <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary" >Search</button>
               </div>
 
               <div class="form-group">
@@ -49,11 +49,11 @@
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
                               StartTime
-                              <input type="time" name="startTime" value="00:00"  autocomplete="off">
+                              <input type="time" name="startTime" value="00:00" step="10" autocomplete="off">
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-6">
                               EndTime
-                              <input type="time" name="endTime" value="23:59" autocomplete="off">
+                              <input type="time" name="endTime" value="23:59"  step="10" autocomplete="off">
                             </fieldset>
                           </div>
                         </div>
