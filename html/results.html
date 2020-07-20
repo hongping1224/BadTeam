@@ -151,7 +151,9 @@
 
                         <div class="col-xs-8">
                           <div class="row">
-                            <h4 name="locationLabel"></h4>
+                            <label id="locationLabel" name="locationLabel" class="col-xs-12 col-sm-12">
+                              a
+                            </label>
                             <fieldset class="col-xs-12 col-sm-6">
                               Longitude
                               <input type="number" id="lon" name="lon" step=any value=0  autocomplete="off">
@@ -247,6 +249,7 @@
       function successCallback(position) {
           lon.value =  position.coords.longitude 
           lat.value = position.coords.latitude
+          locationLabel.innerHTML ="Your Location";
       }
       
       // Define callback function for failed attempt
