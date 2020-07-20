@@ -48,7 +48,7 @@
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-6">
-                              <input type="time" name="traintime" value="00:00"  autocomplete="off">
+                              <input type="time" id="traintime" name="traintime" value="00:00"  autocomplete="off">
                             </fieldset>
                           </div>
                         </div>
@@ -267,8 +267,7 @@
       showPosition()*/
       function init(s,time,day,level) {
         if (s!="init"){
-          alert(day)
-          alert("lv"+level)
+          document.getElementById("traintime").value = time;
           document.getElementById(day).checked = true;
           document.getElementById("lv"+level).checked = true;
           return
@@ -278,7 +277,7 @@
         var ds = ["sun","mon","tue","wed","thu","fri","sat"]
         document.getElementById(ds[day]).checked = true;
       }
-      init({{.Init}},"",{{.Day}},{{.Level}});
+      init({{.Init}},{{.Time}},{{.Day}},{{.Level}});
   </script>
 
     </body>
