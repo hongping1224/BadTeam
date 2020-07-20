@@ -46,12 +46,9 @@ func main() {
 	fmt.Println("Start Upload")
 	data.UploadDataToDatabase(db, combineOutputPath)
 	fmt.Println("Finish Upload")
-	/*
-		fmt.Println("Start Test")
-		test(db)
-		fmt.Println("Finish Test")
-	*/
+
 	http.HandleFunc("/", HomePageHandler)
+	http.HandleFunc("/updatedata", UpdateHandler)
 
 	fs := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fs))
@@ -60,31 +57,21 @@ func main() {
 	http.ListenAndServe(":65000", nil)
 }
 
-func test(db *sql.DB) {
-	rows, err := db.Query("SELECT address FROM TeamData")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	defer rows.Close()
-
-	for rows.Next() {
-		var name string
-		if err := rows.Scan(&name); err != nil {
-			// Check for a scan error.
-			// Query rows will be closed with defer.
-			log.Fatal(err)
-		}
-		fmt.Println(data.HexToString(name))
-	}
-}
-
 type dataResult struct {
 	Result map[int]data.Data
 	Init   string
 	Day    string
 	Level  string
 	Time   string
+}
+
+func UpdateHandler(w http.ResponseWriter, r *http.Request) {
+	err := UpdateData()
+	if err != nil {
+		w.Write([]byte(err.Error()))
+		return
+	}
+	w.Write([]byte("Update Complete"))
 }
 
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
