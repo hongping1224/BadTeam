@@ -146,11 +146,12 @@
                       <div class="form-group">
                         <div class="col-xs-4">
                           <label for="My Location">Location</label>
+                          <button  onclick="showPosition();" class="btn btn-primary">GetLocation</button>
                         </div>
 
                         <div class="col-xs-8">
                           <div class="row", name="locationLabel">
-                            <a  onclick="showPosition();">GetLocation</a>
+                            
                             <fieldset class="col-xs-12 col-sm-6">
                               Longitude
                               <input type="number" id="lon" name="lon" step=any value=0  autocomplete="off">
@@ -233,7 +234,6 @@
           lon = document.getElementById("lon");
           lat = document.getElementById("lat");
           locationLabel = document.getElementById("locationLabel");
-          
           // If geolocation is available, try to get the visitor's position
           if(navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
@@ -246,7 +246,6 @@
       function successCallback(position) {
           lon.value =  position.coords.longitude 
           lat.value = position.coords.latitude
-
       }
       
       // Define callback function for failed attempt
