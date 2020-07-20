@@ -102,7 +102,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			defer rows.Close()
-
+			fmt.Println(rows)
 			for rows.Next() {
 				var name data.Data
 				if err := rows.Scan(&name.UID,
