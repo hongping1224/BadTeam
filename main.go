@@ -102,33 +102,36 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			defer rows.Close()
-			fmt.Println(rows)
-			for rows.Next() {
-				var name data.Data
-				if err := rows.Scan(&name.UID,
-					&name.Name,
-					&name.Day,
-					&name.StartTime,
-					&name.EndTime,
-					&name.CourtName,
-					&name.Address,
-					&name.FromLevel,
-					&name.ToLevel,
-					&name.CourtCount,
-					&name.FeeM,
-					&name.FeeF,
-					&name.MinBallType,
-					&name.Note); err != nil {
-					// Check for a scan error.
-					// Query rows will be closed with defer.
-					log.Fatal(err)
+			if rows != nil {
+				fmt.Println(rows)
+				for rows.Next() {
+					fmt.Println("Parsingrow")
+					var name data.Data
+					if err := rows.Scan(&name.UID,
+						&name.Name,
+						&name.Day,
+						&name.StartTime,
+						&name.EndTime,
+						&name.CourtName,
+						&name.Address,
+						&name.FromLevel,
+						&name.ToLevel,
+						&name.CourtCount,
+						&name.FeeM,
+						&name.FeeF,
+						&name.MinBallType,
+						&name.Note); err != nil {
+						// Check for a scan error.
+						// Query rows will be closed with defer.
+						log.Fatal(err)
+					}
+					name.Name = data.HexToString(name.Name)
+					name.CourtName = data.HexToString(name.CourtName)
+					name.Address = data.HexToString(name.Address)
+					name.MinBallType = data.HexToString(name.MinBallType)
+					name.Note = data.HexToString(name.Note)
+					results[name.UID] = name
 				}
-				name.Name = data.HexToString(name.Name)
-				name.CourtName = data.HexToString(name.CourtName)
-				name.Address = data.HexToString(name.Address)
-				name.MinBallType = data.HexToString(name.MinBallType)
-				name.Note = data.HexToString(name.Note)
-				results[name.UID] = name
 			}
 		}
 	}
