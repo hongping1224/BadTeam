@@ -37,9 +37,9 @@ func getDayQuery(b []bool) string {
 	for i, bo := range b {
 		if bo == true {
 			if s == "" {
-				s = fmt.Sprintf("AND (day=%d", i)
+				s = fmt.Sprintf("AND (day=%d", i+1)
 			} else {
-				s += fmt.Sprintf(" OR day=%d", i)
+				s += fmt.Sprintf(" OR day=%d", i+1)
 			}
 		}
 	}
