@@ -103,13 +103,13 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 			defer rows.Close()
 
 			for rows.Next() {
-				var name string
+				var name data.Data
 				if err := rows.Scan(&name); err != nil {
 					// Check for a scan error.
 					// Query rows will be closed with defer.
 					log.Fatal(err)
 				}
-				fmt.Println(data.HexToString(name))
+				fmt.Println(data)
 			}
 		}
 	}
