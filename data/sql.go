@@ -20,7 +20,6 @@ func GenerateSearchCmd(form map[string][]string) (string, error) {
 			trainTime = parseRequestTime(val[0])
 		}
 	}
-	fmt.Println(trainTime)
 	day := parseRequestAllDay(form)
 	fmt.Println(day)
 	if val, ok := form["lv"]; ok {
@@ -43,6 +42,7 @@ func parseRequestLevel(s string) int8 {
 func parseRequestAllDay(form map[string][]string) []bool {
 	days := []string{"mon", "tue", "wed", "thu", "fri", "sat", "sun"}
 	b := make([]bool, 7)
+	print(form)
 	for i, day := range days {
 		if val, ok := form[day]; ok {
 			if len(val) > 0 {
