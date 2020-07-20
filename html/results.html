@@ -71,7 +71,6 @@
                               <input type="radio" name="day"  id="mon" value="mon"  autocomplete="off">
                               Monday
                             </fieldset>
-                                
                             <fieldset class="col-xs-12 col-sm-6">
                               <input type="radio" name="day" id="tue" value="tue"  autocomplete="off">
                               Tuesday
@@ -112,27 +111,27 @@
                         <div class="col-xs-8">
                           <div class="row">
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="0" autocomplete="off" checked>
+                              <input type="radio" name="lv" id="lv0" value ="0" autocomplete="off" checked>
                               0
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="1" autocomplete="off">
+                              <input type="radio" name="lv" id="lv1" value ="1" autocomplete="off">
                               1
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="2"  autocomplete="off"> 
+                              <input type="radio" name="lv" id="lv2" value ="2"  autocomplete="off"> 
                               2
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="3" autocomplete="off">
+                              <input type="radio" name="lv"  id="lv3" value ="3" autocomplete="off">
                               3
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="4"  autocomplete="off">
+                              <input type="radio" name="lv"  id="lv4" value ="4"  autocomplete="off">
                               4
                             </fieldset>
                             <fieldset class="col-xs-12 col-sm-2">
-                              <input type="radio" name="lv" value ="5" autocomplete="off">
+                              <input type="radio" name="lv" id="lv5" value ="5" autocomplete="off">
                               5
                             </fieldset>
                           </div>
@@ -266,8 +265,10 @@
           }
       }
       showPosition()*/
-      function init(s) {
+      function init(s,time,day,level) {
         if (s!="init"){
+          document.getElementById(day).checked = true;
+          document.getElementById("lv"+level).checked = true;
           return
         }
         var today = new Date();
@@ -275,7 +276,7 @@
         var ds = ["sun","mon","tue","wed","thu","fri","sat"]
         document.getElementById(ds[day]).checked = true;
       }
-      init({{.Init}});
+      init({{.Init}},"",{{.Day}},{{.Level}});
   </script>
 
     </body>

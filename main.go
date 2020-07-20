@@ -82,14 +82,16 @@ func test(db *sql.DB) {
 type dataResult struct {
 	Result map[int]data.Data
 	Init   string
+	Day    string
+	Level  string
 }
 
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 
 	results := make(map[int]data.Data)
-	init := "init"
+	p := dataResult{Init: "init"}
 	if r.Method == http.MethodPost {
-		init = ""
+		p.Init = ""
 		err := r.ParseForm()
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -130,11 +132,14 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				name.MinBallType = data.HexToString(name.MinBallType)
 				name.Note = data.HexToString(name.Note)
 				results[name.UID] = name
+
+				p.Day = r.Form["day"][0]
+				p.Level = r.Form["lv"][0]
 			}
 		}
 	}
 	fmt.Println("returning")
-	p := dataResult{Result: results, Init: init}
+	p.Result = results
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
