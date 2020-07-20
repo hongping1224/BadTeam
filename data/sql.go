@@ -45,8 +45,11 @@ func parseRequestLevel(s string) int8 {
 	return 0
 }
 
-func parseRequestDay(s string) int8 {
+func parseRequestAllDay(form map[string][]string) []bool {
+	return []bool{}
+}
 
+func parseRequestDay(s string) int8 {
 	switch s {
 	case "mon":
 		return 1
