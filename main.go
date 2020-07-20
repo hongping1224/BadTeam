@@ -123,6 +123,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 					log.Fatal(err)
 				}
 				name.Name = data.HexToString(name.Name)
+				name.CourtName = data.HexToString(name.CourtName)
 				name.Address = data.HexToString(name.Address)
 				name.MinBallType = data.HexToString(name.MinBallType)
 				name.Note = data.HexToString(name.Note)
