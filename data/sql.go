@@ -21,15 +21,32 @@ func GenerateSearchCmd(form map[string][]string) (string, error) {
 		}
 	}
 	day := parseRequestAllDay(form)
-	fmt.Println(day)
+	dayquery := getDayQuery(day)
 	if val, ok := form["lv"]; ok {
 		if len(val) > 0 {
 			level = parseRequestLevel(val[0])
 		}
 	}
 	fmt.Println(level)
-	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE fromLevel<=%d AND toLevel>=%d AND startTime<=%d AND endTime>=%d;", level, level, trainTime, trainTime)
+	cmd := fmt.Sprintf("SELECT * FROM TeamData WHERE (fromLevel<=%d AND toLevel>=%d AND startTime<=%d AND endTime>=%d) %s ;", level, level, trainTime, trainTime, dayquery)
 	return cmd, nil
+}
+
+func getDayQuery(b []bool) string {
+	s := ""
+	for i, bo := range b {
+		if bo == true {
+			if s == "" {
+				s = fmt.Sprintf("AND (day=%d", i)
+			} else {
+				s += fmt.Sprintf(" OR day=%d", i)
+			}
+		}
+	}
+	if s != "" {
+		s += ")"
+	}
+	return s
 }
 
 func parseRequestLevel(s string) int8 {
