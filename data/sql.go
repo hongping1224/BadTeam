@@ -27,7 +27,7 @@ func GenerateSearchCmd(form map[string][]string) (string, error) {
 	return cmd, nil
 }
 
-func getDayQuery(b []bool) string {
+func getLevelQuery(b []bool) string {
 	s := ""
 	for i, bo := range b {
 		if bo == true {
@@ -44,7 +44,7 @@ func getDayQuery(b []bool) string {
 	return s
 }
 
-func getLevelQuery(b []bool) string {
+func getDayQuery(b []bool) string {
 	s := ""
 	for i, bo := range b {
 		if bo == true {
