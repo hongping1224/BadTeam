@@ -24,7 +24,7 @@ const (
 var db *sql.DB
 
 func main() {
-	/*fmt.Println("Start UpdateData")
+	fmt.Println("Start UpdateData")
 	err := UpdateData()
 	if err != nil {
 		fmt.Println(err)
@@ -46,10 +46,10 @@ func main() {
 	fmt.Println("Start Upload")
 	data.UploadDataToDatabase(db, combineOutputPath)
 	fmt.Println("Finish Upload")
-
-	fmt.Println("Start Test")
-	test(db)
-	fmt.Println("Finish Test")
+	/*
+		fmt.Println("Start Test")
+		test(db)
+		fmt.Println("Finish Test")
 	*/
 	http.HandleFunc("/", HomePageHandler)
 
