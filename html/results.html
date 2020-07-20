@@ -276,6 +276,8 @@
         var day = today.getDay();
         var ds = ["sun","mon","tue","wed","thu","fri","sat"]
         document.getElementById(ds[day]).checked = true;
+        document.getElementById("traintime").value = day.getHours() + ":" + day.getMinutes();
+
       }
       init({{.Init}},{{.Time}},{{.Day}},{{.Level}});
   </script>
