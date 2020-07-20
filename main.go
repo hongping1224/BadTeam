@@ -87,8 +87,9 @@ type dataResult struct {
 func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 
 	results := make(map[int]data.Data)
-
+	init := "init"
 	if r.Method == http.MethodPost {
+		init = ""
 		err := r.ParseForm()
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -133,7 +134,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	fmt.Println("returning")
-	p := dataResult{Result: results, Init: "init"}
+	p := dataResult{Result: results, Init: init}
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
