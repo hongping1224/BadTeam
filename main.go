@@ -24,7 +24,7 @@ const (
 var db *sql.DB
 
 func main() {
-	err := UpdateData()
+	/*err := UpdateData()
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -44,9 +44,9 @@ func main() {
 	fmt.Println("Start Upload")
 	data.UploadDataToDatabase(db, combineOutputPath)
 	fmt.Println("Finish Upload")
-
-	http.HandleFunc("/", HomePageHandler)
+	*/
 	http.HandleFunc("/updatedata", UpdateHandler)
+	http.HandleFunc("/", HomePageHandler)
 
 	fs := http.FileServer(http.Dir("./html"))
 	http.Handle("/html/", http.StripPrefix("/html/", fs))
