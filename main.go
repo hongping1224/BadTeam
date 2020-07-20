@@ -104,7 +104,20 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 
 			for rows.Next() {
 				var name data.Data
-				if err := rows.Scan(&name); err != nil {
+				if err := rows.Scan(&name.UID,
+					&name.Name,
+					&name.Day,
+					&name.StartTime,
+					&name.EndTime,
+					&name.CourtName,
+					&name.Address,
+					&name.FromLevel,
+					&name.ToLevel,
+					&name.CourtCount,
+					&name.FeeM,
+					&name.FeeF,
+					&name.MinBallType,
+					&name.Note); err != nil {
 					// Check for a scan error.
 					// Query rows will be closed with defer.
 					log.Fatal(err)
