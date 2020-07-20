@@ -186,34 +186,48 @@
             <div class="tab-content"  style="width: 100%" >
               <div role="tabpanel" class="tab-pane tab-body active" id="results1"  style="width: 100%">
                 <div class="list-group"  style="width: 100%">
-                  {{ range $key, $value := .Result }}
+                 
                     <div class="panel panel-default list-group-item">
                       <div class="panel-body">
                         <div class="media">
                           <div class="media-body">
-                            <h4 class="media-heading">{{ $value.Name }}</h4>
+                            <h4 class="media-heading">Search Result</h4>
                               <div>
                                 
                                 <table class="table" style="width: 100%" >
                                   <tr>
+                                    <th>球隊名稱</th>
+                                    <th>時間</th>
+                                    <th>球館</th>
+                                    <th>地址</th>
+                                    <th>強度</th>
+                                    <th>場地數</th>
+                                    <th>收費(男)</th>
+                                    <th>收費(女)</th>
+                                    <th>用球</th>
+                                    <th>備註</th>
+                                  </tr>
+                                  {{ range $key, $value := .Result }}
+                                  <tr>
+                                    <th>{{ $value.Name }}</th>
                                     <th>{{ $value.StartTime }} - {{ $value.EndTime }}</th>
                                     <th>{{ $value.CourtName }}</th>
                                     <th>{{ $value.Address }}</th>
                                     <th>{{ $value.FromLevel }} - {{ $value.ToLevel }}</th>
-                                    <th>{{ $value.CourtCount }}</th>
                                     <th>{{ $value.CourtCount }}</th>
                                     <th>{{ $value.FeeM }}</th>
                                     <th>{{ $value.FeeF }}</th>
                                     <th>{{ $value.MinBallType }}</th>
                                     <th>{{ $value.Note }}</th>
                                   </tr>
+                                  {{ end }}
                                 </table>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  {{ end }}
+                 
                 </div>
               </div>
             </div>
