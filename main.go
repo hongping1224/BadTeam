@@ -100,6 +100,10 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		if err == nil {
 			fmt.Println(cmd)
 			rows, err := db.Query(cmd)
+			p.Day = r.Form["day"][0]
+			fmt.Println(r.Form["day"][0])
+			fmt.Println(r.Form["lv"][0])
+			p.Level = r.Form["lv"][0]
 			fmt.Println("finish Query")
 			if err != nil {
 				fmt.Println(err)
@@ -133,11 +137,8 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				name.Note = data.HexToString(name.Note)
 				results[name.UID] = name
 
-				p.Day = r.Form["day"][0]
-				fmt.Println(r.Form["day"][0])
-				fmt.Println(r.Form["lv"][0])
-				p.Level = r.Form["lv"][0]
 			}
+
 		}
 	}
 	fmt.Println("returning")
