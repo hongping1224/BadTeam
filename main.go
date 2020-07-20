@@ -24,12 +24,10 @@ const (
 var db *sql.DB
 
 func main() {
-	fmt.Println("Start UpdateData")
 	err := UpdateData()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Finish UpdateData")
 	user := os.Getenv("SQLUSER")
 	pass := os.Getenv("SQLPASS")
 	loginstr := fmt.Sprintf("%s:%s@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON", user, pass)
@@ -139,6 +137,8 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 
 //UpdateData download new data and refresh cache
 func UpdateData() error {
+	fmt.Println("Start UpdateData")
+
 	dataLink := "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGDH-jfWULsmOHH5jDTgDZDZPxdgMmnrM6TOrF8FzV6FJEYtbSTcRhONDNG21hfKge04nZ96oKA78I/pub?gid=0&single=true&output=csv"
 
 	err := DownloadFile(savePath, dataLink)
@@ -159,6 +159,7 @@ func UpdateData() error {
 	if err != nil {
 		return err
 	}
+	fmt.Println("Finish UpdateData")
 	return nil
 }
 
