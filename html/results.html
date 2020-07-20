@@ -266,14 +266,17 @@
           }
       }
       showPosition()*/
-      function init() {
+      function init(s) {
+        if (s!="init"){
+          return
+        }
         var today = new Date();
         var day = today.getDay();
         var ds = ["sun","mon","tue","wed","thu","fri","sat"]
         alert(day)
         document.getElementById(ds[day]).checked = true;
       }
-      {{.Init}}
+      init({{.init}})
   </script>
 
     </body>

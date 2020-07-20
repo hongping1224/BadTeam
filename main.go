@@ -133,7 +133,7 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	fmt.Println("returning")
-	p := dataResult{Result: results, Init: "Init();"}
+	p := dataResult{Result: results, Init: "init"}
 	t, err := template.ParseFiles("./html/results.html")
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
