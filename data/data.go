@@ -23,7 +23,7 @@ type Data struct {
 	CourtCount  int8
 	FeeM        int16
 	FeeF        int16
-	MinBallType int8
+	MinBallType string
 	Note        string
 	Location    Location
 }
@@ -34,26 +34,42 @@ const (
 	timeCol        = 2 //d
 	courtCol       = 3 //d
 	addressCol     = 4 //d
-	levelCol       = 5
-	courtCountCol  = 6
-	feeMCol        = 7
-	feeFCol        = 8
-	minBallTypeCol = 9
+	levelCol       = 5 //d
+	courtCountCol  = 6 //d
+	feeMCol        = 7 //d
+	feeFCol        = 8 //d
+	minBallTypeCol = 9 //d
 	lastUpdateCol  = 10
-	noteCol        = 11
+	noteCol        = 11 //d
 	lonCol         = 12 //d
 	latCol         = 13 //d
 )
 
 func NewData(record []string) Data {
-	d := Data{Name: record[nameCol], CourtName: record[courtCol], Address: record[addressCol]}
+	d := Data{Name: record[nameCol], CourtName: record[courtCol], Address: record[addressCol], MinBallType: record[minBallTypeCol], Note: record[noteCol]}
 	d.Day = parseDay(record[dayCol])
 	d.StartTime, d.EndTime = parseTime(record[timeCol])
 	d.Location = parseLocation(record[lonCol], record[latCol])
 	d.FromLevel, d.ToLevel = parseLevel(record[levelCol])
+	d.CourtCount = parseCourtCount(record[courtCountCol])
+	d.FeeM = parseFee(record[feeMCol])
+	d.FeeF = parseFee(record[feeFCol])
 	return d
 }
 
+func parseCourtCount(s string) int8 {
+	if val, err := strconv.Atoi(s); err == nil {
+		return int8(val)
+	}
+	return -1
+}
+
+func parseFee(s string) int16 {
+	if val, err := strconv.Atoi(s); err == nil {
+		return int16(val)
+	}
+	return -1
+}
 func parseLevel(s string) (from, to int8) {
 	if len(s) == 1 {
 		if val, err := strconv.Atoi(s); err == nil {

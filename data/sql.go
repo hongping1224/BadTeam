@@ -86,8 +86,8 @@ func parseRequestTime(s string) int16 {
 func ToStoreSQLCmd(data Data) string {
 	return fmt.Sprintf(
 		`INSERT INTO TeamData 
-	(name, day, startTime, endTime, courtName, address,fromLevel,toLevel) VALUES  ("%s",%d,%d,%d,"%s","%s",%d,%d);`,
-		StringToHex(data.Name), data.Day, data.StartTime, data.EndTime, StringToHex(data.CourtName), StringToHex(data.Address), data.FromLevel, data.ToLevel)
+	(name, day, startTime, endTime, courtName, address,fromLevel,toLevel, courtCount,feeM,feeF,minBallType,note) VALUES  ("%s",%d,%d,%d,"%s","%s",%d,%d, %d,%d,%d,"%s","%s");`,
+		StringToHex(data.Name), data.Day, data.StartTime, data.EndTime, StringToHex(data.CourtName), StringToHex(data.Address), data.FromLevel, data.ToLevel, data.CourtCount, data.FeeM, data.FeeF, StringToHex(data.MinBallType), StringToHex(data.Note))
 }
 
 func StringToHex(s string) string {
@@ -116,7 +116,7 @@ func CreateTable(client *sql.DB) error {
 		courtCount TINYINT,
 		feeM SMALLINT,
 		feeF SMALLINT,
-		minBallType TINYINT,
+		minBallType VARCHAR(50),
 		note VARCHAR(100));
 	`
 	rows, err := client.Query(q)
