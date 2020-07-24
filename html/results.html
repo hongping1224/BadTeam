@@ -168,13 +168,14 @@
                    
       
                   </ul>
-                  <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary" >Search</button>
-                  </div>
+                 
                 </div>
               </div>
             </form>
 
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-primary" >Search</button>
+            </div>
           </div>
         </div>
       </div>
@@ -203,10 +204,10 @@
                                     <th class="align-middle">球館</th>
                                     <th class="align-middle">地址</th>
                                     <th class="align-middle">程度</th>
-                                    <th class="align-middle">場地數</th>
+                                    <!--th class="align-middle">場地數</th-->
                                     <th class="align-middle">收費(男)</th>
                                     <th class="align-middle">收費(女)</th>
-                                    <th class="align-middle">用球</th>
+                                    <!--th class="align-middle">用球</th-->
                                     <th class="align-middle">備註</th>
                                   </tr>
                                   {{ range $key, $value := .Result }}
@@ -217,10 +218,10 @@
                                     <td><a target="_blank" rel="noopener noreferrer" href="http://maps.google.com/?q={{ $value.CourtName }}">{{ $value.CourtName }}</a></td>
                                     <td>{{ $value.Address }}</td>
                                     <td class="align-middle">{{ $value.LevelStr }}</td>
-                                    <td class="align-middle">{{ $value.CourtCountStr }}</td>
+                                    <!--td class="align-middle">{{ $value.CourtCountStr }}</td-->
                                     <td class="align-middle">{{ $value.FeeMStr }}</td>
                                     <td class="align-middle">{{ $value.FeeFStr }}</td>
-                                    <td class="align-middle">{{ $value.MinBallType }}</td>
+                                    <!--td class="align-middle">{{ $value.MinBallType }}</td-->
                                     <td>{{ $value.Note }}</td>
                                   </tr>
                                   {{ end }}
