@@ -197,30 +197,30 @@
                                 
                                 <table class="table" style="width: 100%" >
                                   <tr>
-                                    <th>球隊名稱</th>
-                                    <th>星期</th>
-                                    <th>時間</th>
-                                    <th>球館</th>
-                                    <th>地址</th>
-                                    <th>強度</th>
-                                    <th>場地數</th>
-                                    <th>收費(男)</th>
-                                    <th>收費(女)</th>
-                                    <th>用球</th>
-                                    <th>備註</th>
+                                    <th class="align-middle">球隊名稱</th>
+                                    <th class="align-middle">星期</th>
+                                    <th class="align-middle">時間</th>
+                                    <th class="align-middle">球館</th>
+                                    <th class="align-middle">地址</th>
+                                    <th class="align-middle">強度</th>
+                                    <th class="align-middle">場地數</th>
+                                    <th class="align-middle">收費(男)</th>
+                                    <th class="align-middle">收費(女)</th>
+                                    <th class="align-middle">用球</th>
+                                    <th class="align-middle">備註</th>
                                   </tr>
                                   {{ range $key, $value := .Result }}
                                   <tr>
                                     <td>{{ $value.Name }}</td>
-                                    <td>{{ $value.Daystr }}</td>
-                                    <td>{{ $value.StartTime }} - {{ $value.EndTime }}</td>
+                                    <td class="align-middle">{{ $value.Daystr }}</td>
+                                    <td class="align-middle">{{ $value.StartTime }} - {{ $value.EndTime }}</td>
                                     <td><a target="_blank" rel="noopener noreferrer" href="http://maps.google.com/?q={{ $value.CourtName }}">{{ $value.CourtName }}</a></td>
                                     <td>{{ $value.Address }}</td>
-                                    <td>{{ $value.LevelStr }}</td>
-                                    <td>{{ $value.CourtCountStr }}</td>
-                                    <td>{{ $value.FeeMStr }}</td>
-                                    <td>{{ $value.FeeFStr }}</td>
-                                    <td>{{ $value.MinBallType }}</td>
+                                    <td class="align-middle">{{ $value.LevelStr }}</td>
+                                    <td class="align-middle">{{ $value.CourtCountStr }}</td>
+                                    <td class="align-middle">{{ $value.FeeMStr }}</td>
+                                    <td class="align-middle">{{ $value.FeeFStr }}</td>
+                                    <td class="align-middle">{{ $value.MinBallType }}</td>
                                     <td>{{ $value.Note }}</td>
                                   </tr>
                                   {{ end }}
