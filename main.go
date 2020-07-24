@@ -131,13 +131,8 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				} else {
 					recordData.FeeFStr = "-"
 				}
-				if recordData.FromLevel == 0 && recordData.ToLevel == 0 {
-					recordData.LevelStr = "-"
-				} else {
-					recordData.LevelStr = fmt.Sprintf("%d-%d", recordData.FromLevel, recordData.ToLevel)
-				}
+				recordData.LevelStr = data.LevelToStr(recordData.FromLevel, recordData.ToLevel)
 				results[recordData.UID] = recordData
-
 			}
 
 		}

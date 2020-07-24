@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -92,6 +93,18 @@ func parseLevel(s string) (from, to int8) {
 		} else {
 			return 0, 0
 		}
+	}
+	return
+}
+
+func LevelToStr(FromLevel, ToLevel int8) (LevelStr string) {
+	label := []string{"無標示", "歡樂", "中下", "中等", "中上", "強"}
+	if FromLevel == 0 && ToLevel == 0 {
+		LevelStr = "-"
+	} else if FromLevel == ToLevel {
+		LevelStr = fmt.Sprintf("%s", label[FromLevel])
+	} else {
+		LevelStr = fmt.Sprintf("%s-%s", label[FromLevel], label[ToLevel])
 	}
 	return
 }
