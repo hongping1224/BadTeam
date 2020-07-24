@@ -211,17 +211,17 @@
                                   </tr>
                                   {{ range $key, $value := .Result }}
                                   <tr>
-                                    <th>{{ $value.Name }}</th>
-                                    <th>{{ $value.Daystr }}</th>
-                                    <th>{{ $value.StartTime }} - {{ $value.EndTime }}</th>
-                                    <th><a target="_blank" rel="noopener noreferrer" href="http://maps.google.com/?q={{ $value.CourtName }}">{{ $value.CourtName }}</a></th>
-                                    <th>{{ $value.Address }}</th>
-                                    <th>{{ $value.LevelStr }}</th>
-                                    <th>{{ $value.CourtCountStr }}</th>
-                                    <th>{{ $value.FeeMStr }}</th>
-                                    <th>{{ $value.FeeFStr }}</th>
-                                    <th>{{ $value.MinBallType }}</th>
-                                    <th>{{ $value.Note }}</th>
+                                    <td>{{ $value.Name }}</td>
+                                    <td>{{ $value.Daystr }}</td>
+                                    <td>{{ $value.StartTime }} - {{ $value.EndTime }}</td>
+                                    <td><a target="_blank" rel="noopener noreferrer" href="http://maps.google.com/?q={{ $value.CourtName }}">{{ $value.CourtName }}</a></td>
+                                    <td>{{ $value.Address }}</td>
+                                    <td>{{ $value.LevelStr }}</td>
+                                    <td>{{ $value.CourtCountStr }}</td>
+                                    <td>{{ $value.FeeMStr }}</td>
+                                    <td>{{ $value.FeeFStr }}</td>
+                                    <td>{{ $value.MinBallType }}</td>
+                                    <td>{{ $value.Note }}</td>
                                   </tr>
                                   {{ end }}
                                 </table>
