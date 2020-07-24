@@ -284,7 +284,6 @@
       showPosition()*/
       function init(s,time) {
         if (s!="init"){
-          document.getElementById("traintime").value = time;
           return
         }
         var today = new Date();
@@ -292,7 +291,7 @@
         var ds = ["sun","mon","tue","wed","thu","fri","sat"]
         document.getElementById(ds[day]).checked = true;
       }
-      init({{.Init}},{{.Time}});
+      //init({{.Init}},{{.Time}});
   </script>
 
     </body>
