@@ -116,6 +116,21 @@ func HomePageHandler(w http.ResponseWriter, r *http.Request) {
 				recordData.MinBallType = data.HexToString(recordData.MinBallType)
 				recordData.Note = data.HexToString(recordData.Note)
 				recordData.Daystr = data.Day2DayStr(recordData.Day)
+				if recordData.CourtCount != -1 {
+					recordData.CourtCountStr = strconv.Itoa(int(recordData.CourtCount))
+				} else {
+					recordData.CourtCountStr = "-"
+				}
+				if recordData.FeeM != -1 {
+					recordData.FeeMStr = strconv.Itoa(int(recordData.FeeM))
+				} else {
+					recordData.FeeMStr = "-"
+				}
+				if recordData.FeeF != -1 {
+					recordData.FeeFStr = strconv.Itoa(int(recordData.FeeF))
+				} else {
+					recordData.FeeFStr = "-"
+				}
 				results[recordData.UID] = recordData
 
 			}

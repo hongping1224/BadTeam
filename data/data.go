@@ -11,22 +11,25 @@ type Location struct {
 }
 
 type Data struct {
-	UID         int
-	Name        string
-	Day         int8
-	Daystr      string
-	StartTime   int16
-	EndTime     int16
-	CourtName   string
-	Address     string
-	FromLevel   int8
-	ToLevel     int8
-	CourtCount  int8
-	FeeM        int16
-	FeeF        int16
-	MinBallType string
-	Note        string
-	Location    Location
+	UID           int
+	Name          string
+	Day           int8
+	Daystr        string
+	StartTime     int16
+	EndTime       int16
+	CourtName     string
+	Address       string
+	FromLevel     int8
+	ToLevel       int8
+	CourtCount    int8
+	CourtCountStr string
+	FeeM          int16
+	FeeMStr       string
+	FeeF          int16
+	FeeFStr       string
+	MinBallType   string
+	Note          string
+	Location      Location
 }
 
 const (
