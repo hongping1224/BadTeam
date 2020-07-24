@@ -21,6 +21,7 @@ type Data struct {
 	Address       string
 	FromLevel     int8
 	ToLevel       int8
+	LevelStr      string
 	CourtCount    int8
 	CourtCountStr string
 	FeeM          int16
