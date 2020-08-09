@@ -35,7 +35,7 @@ type Data struct {
 }
 
 const (
-	updatedCol     = 0
+	UpdatedCol     = 0
 	nameCol        = 1  //d
 	dayCol         = 2  //d
 	timeCol        = 3  //d

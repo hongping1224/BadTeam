@@ -202,7 +202,9 @@ func MapLocationToData(filepath, outpath string, locations map[string]data.Locat
 		if record[addressColume] == "" {
 			continue
 		}
-
+		if record[data.UpdatedCol] != "V" {
+			continue
+		}
 		if p, ok := locations[record[addressColume]]; ok {
 			record = append(record, fmt.Sprintf("%.8f", p.Lon), fmt.Sprintf("%.8f", p.Lat))
 			w.Write(record)
