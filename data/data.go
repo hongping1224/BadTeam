@@ -35,29 +35,29 @@ type Data struct {
 }
 
 const (
-	nameCol        = 0 //d
-	dayCol         = 1 //d
-	timeCol        = 2 //d
-	courtCol       = 3 //d
-	addressCol     = 4 //d
-	levelCol       = 5 //d
-	courtCountCol  = 6 //d
-	feeMCol        = 7 //d
-	feeFCol        = 8 //d
-	minBallTypeCol = 9 //d
-	lastUpdateCol  = 10
-	noteCol        = 11 //d
-	lonCol         = 12 //d
-	latCol         = 13 //d
+	updatedCol     = 0
+	nameCol        = 1  //d
+	dayCol         = 2  //d
+	timeCol        = 3  //d
+	courtCol       = 4  //d
+	AddressCol     = 5  //d
+	levelCol       = 6  //d
+	courtCountCol  = -1 //d
+	feeMCol        = 7  //d
+	feeFCol        = 8  //d
+	minBallTypeCol = -1 //d
+	lastUpdateCol  = -1
+	noteCol        = 9  //d
+	lonCol         = 10 //d
+	latCol         = 11 //d
 )
 
 func NewData(record []string) Data {
-	d := Data{Name: record[nameCol], CourtName: record[courtCol], Address: record[addressCol], MinBallType: record[minBallTypeCol], Note: record[noteCol]}
+	d := Data{Name: record[nameCol], CourtName: record[courtCol], Address: record[AddressCol], Note: record[noteCol]}
 	d.Day = parseDay(record[dayCol])
 	d.StartTime, d.EndTime = parseTime(record[timeCol])
 	d.Location = parseLocation(record[lonCol], record[latCol])
 	d.FromLevel, d.ToLevel = parseLevel(record[levelCol])
-	d.CourtCount = parseCourtCount(record[courtCountCol])
 	d.FeeM = parseFee(record[feeMCol])
 	d.FeeF = parseFee(record[feeFCol])
 	return d

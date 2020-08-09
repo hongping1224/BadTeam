@@ -192,7 +192,7 @@ func MapLocationToData(filepath, outpath string, locations map[string]data.Locat
 	header = append(header, "lon", "lat")
 	w.Write(header)
 
-	addressColume := 4
+	addressColume := data.AddressCol
 	for {
 		// Read each record from csv
 		record, err := r.Read()
