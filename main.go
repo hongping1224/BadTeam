@@ -211,6 +211,8 @@ func MapLocationToData(filepath, outpath string, locations map[string]data.Locat
 			//fmt.Println(p)
 		} else {
 			fmt.Println("record not found", record[addressColume])
+			record = append(record, fmt.Sprintf("%.8f", 0), fmt.Sprintf("%.8f", 0))
+			w.Write(record)
 		}
 	}
 	w.Flush()
