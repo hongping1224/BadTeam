@@ -28,6 +28,17 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	user := os.Getenv("SQLUSER")
+	pass := os.Getenv("SQLPASS")
+	loginstr := fmt.Sprintf("%s:%s@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON", user, pass)
+	db, err = sql.Open("mysql", loginstr)
+	if err != nil {
+		fmt.Printf(" sql.Open Error: %v\n", err)
+	}
+	defer db.Close()
+	if err != nil {
+		fmt.Printf("DropTable Error: %v\n", err)
+	}
 	http.HandleFunc("/updatedata", UpdateHandler)
 	http.HandleFunc("/", HomePageHandler)
 
@@ -49,17 +60,6 @@ func UpdateHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Write([]byte(err.Error()))
 		return
-	}
-	user := os.Getenv("SQLUSER")
-	pass := os.Getenv("SQLPASS")
-	loginstr := fmt.Sprintf("%s:%s@tcp(badteam.ccz3kc9rn8lq.ap-southeast-1.rds.amazonaws.com:3306)/BADMINTON", user, pass)
-	db, err = sql.Open("mysql", loginstr)
-	if err != nil {
-		fmt.Printf(" sql.Open Error: %v\n", err)
-	}
-	defer db.Close()
-	if err != nil {
-		fmt.Printf("DropTable Error: %v\n", err)
 	}
 	data.DropTable(db)
 	data.CreateTable(db)
